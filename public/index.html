@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trendyol Alışveriş Asistanı — En Güvenilir Ürünleri Bul</title>
+  <meta name="description" content="Yapay zeka destekli Trendyol alışveriş asistanı. Bayesian skorlama ile en güvenilir, en yüksek puanlı ürünleri anında bul." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🛍️</span>
+        <div>
+          <h1 class="logo-title">Alışveriş Asistanı</h1>
+          <span class="logo-sub">powered by Gemini 2.5 Flash</span>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        <span>Aktif</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero-section">
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span>🤖 Yapay Zeka Destekli</span>
+        </div>
+        <h2 class="hero-title">
+          En Güvenilir Ürünü<br />
+          <span class="gradient-text">Saniyeler İçinde</span> Bul
+        </h2>
+        <p class="hero-desc">
+          Binlerce ürün arasından Bayesian skorlama ile sadece gerçekten iyi olanları seçiyoruz.
+          Yüksek puanlı ve çok yorumlu ürünleri akıllıca sıralıyoruz.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+          <form id="search-form" class="search-form" autocomplete="off">
+            <div class="search-input-wrapper">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                id="search-input"
+                class="search-input"
+                placeholder="Ne arıyorsun? (örn: spor ayakkabı, laptop, kulaklık)"
+                maxlength="120"
+                autofocus
+              />
+              <button type="submit" id="search-btn" class="search-btn">
+                <span class="btn-text">Ara</span>
+                <span class="btn-icon">→</span>
+              </button>
+            </div>
+            <!-- Quick Tags -->
+            <div class="quick-tags" id="quick-tags">
+              <span class="quick-tag-label">Hızlı ara:</span>
+              <button type="button" class="tag" data-query="spor ayakkabı">🏃 Spor Ayakkabı</button>
+              <button type="button" class="tag" data-query="bluetooth kulaklık">🎧 Kulaklık</button>
+              <button type="button" class="tag" data-query="laptop">💻 Laptop</button>
+              <button type="button" class="tag" data-query="akıllı saat">⌚ Akıllı Saat</button>
+              <button type="button" class="tag" data-query="robot süpürge">🤖 Robot Süpürge</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading State -->
+    <section class="loading-section hidden" id="loading-section">
+      <div class="loading-card">
+        <div class="loading-animation">
+          <div class="spinner"></div>
+        </div>
+        <h3 class="loading-title">Araştırılıyor...</h3>
+        <div class="loading-steps" id="loading-steps">
+          <div class="step step-active" id="step-1">
+            <span class="step-icon">🤖</span>
+            <span>Arama terimleri genişletiliyor</span>
+            <span class="step-status">⏳</span>
+          </div>
+          <div class="step" id="step-2">
+            <span class="step-icon">🌐</span>
+            <span>Trendyol taranıyor</span>
+            <span class="step-status">⏳</span>
+          </div>
+          <div class="step" id="step-3">
+            <span class="step-icon">📊</span>
+            <span>Bayesian skorlama yapılıyor</span>
+            <span class="step-status">⏳</span>
+          </div>
+          <div class="step" id="step-4">
+            <span class="step-icon">✨</span>
+            <span>En iyiler seçiliyor</span>
+            <span class="step-status">⏳</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section hidden" id="results-section">
+      <!-- Meta Info -->
+      <div class="results-meta" id="results-meta"></div>
+
+      <!-- Keywords Pills -->
+      <div class="keywords-row" id="keywords-row"></div>
+
+      <!-- Results Grid -->
+      <div class="results-grid" id="results-grid"></div>
+
+      <!-- New Search -->
+      <div class="new-search-row">
+        <button id="new-search-btn" class="new-search-btn">
+          ← Yeni Arama Yap
+        </button>
+      </div>
+    </section>
+
+    <!-- Error Section -->
+    <section class="error-section hidden" id="error-section">
+      <div class="error-card">
+        <span class="error-icon">😕</span>
+        <h3 id="error-title">Bir şeyler ters gitti</h3>
+        <p id="error-msg"></p>
+        <button id="retry-btn" class="retry-btn">Tekrar Dene</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Trendyol Alışveriş Asistanı • Bayesian AI Skorlama • Gerçek zamanlı pazar araştırması</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
