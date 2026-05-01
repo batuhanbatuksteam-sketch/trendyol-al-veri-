@@ -319,3 +319,49 @@ document.head.appendChild(shakeStyle);
 
 // ─── Init ─────────────────────────────────────────────────────
 console.log('🛍️ Trendyol Alışveriş Asistanı hazır');
+
+// ─── Log Panel Mantığı ───────────────────────────────────────────────
+const logsBtn = document.getElementById('logs-trigger-btn');
+const logsModal = document.getElementById('logs-modal');
+const logsClose = document.getElementById('logs-close-btn');
+const logsContainer = document.getElementById('logs-container');
+let logInterval = null;
+
+function fetchLogs() {
+  fetch('/api/logs')
+    .then(r => r.json())
+    .then(data => {
+      const logs = data.logs || [];
+      const wasAtBottom = logsContainer.scrollHeight - logsContainer.scrollTop <= logsContainer.clientHeight + 50;
+      
+      logsContainer.innerHTML = logs.map(line => {
+        let cls = 'info';
+        if (line.includes('[ERROR]')) cls = 'error';
+        if (line.includes('[SCRAPER]')) cls = 'scraper';
+        return `<div class="log-line ${cls}">${escapeHtml(line)}</div>`;
+      }).join('');
+      
+      if (wasAtBottom) {
+        logsContainer.scrollTop = logsContainer.scrollHeight;
+      }
+    })
+    .catch(err => console.error('Log fetch hatası:', err));
+}
+
+logsBtn.addEventListener('click', () => {
+  logsModal.classList.remove('hidden');
+  fetchLogs(); // Hemen çek
+  logInterval = setInterval(fetchLogs, 1500); // 1.5 sn'de bir güncelle
+});
+
+logsClose.addEventListener('click', () => {
+  logsModal.classList.add('hidden');
+  if (logInterval) clearInterval(logInterval);
+});
+
+logsModal.addEventListener('click', (e) => {
+  if (e.target === logsModal) {
+    logsModal.classList.add('hidden');
+    if (logInterval) clearInterval(logInterval);
+  }
+});
