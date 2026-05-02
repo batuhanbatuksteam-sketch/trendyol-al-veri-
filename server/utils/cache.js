@@ -20,7 +20,12 @@ async function getOrSet(key, factory) {
   }
   console.log(`[CACHE MISS] ${key} — üretiliyor...`);
   const value = await factory();
-  cache.set(key, value);
+  
+  // Sadece mantıklı/dolu sonuçları cache'le
+  if (value && (!value.results || value.results.length > 0)) {
+    cache.set(key, value);
+  }
+  
   return value;
 }
 
