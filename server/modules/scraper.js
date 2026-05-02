@@ -179,8 +179,12 @@ async function scrapeKeyword(keyword, browser) {
     const searchUrl = TRENDYOL.search(keyword);
     console.log(`[SCRAPER] → ${keyword} | ${searchUrl}`);
 
-    await page.goto(searchUrl, { waitUntil: 'networkidle', timeout: SCRAPER.timeout });
-    await page.waitForTimeout(SCRAPER.waitAfterLoad);
+    try {
+      await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: SCRAPER.timeout });
+      await page.waitForTimeout(SCRAPER.waitAfterLoad);
+    } catch (gotoErr) {
+      console.warn(`[SCRAPER] "${keyword}" page.goto timeout oldu ancak DOM taranmaya çalışılacak.`);
+    }
 
     // ─── Strateji 1: XHR intercept ────────────────────────────────────────
     if (interceptedProducts.length > 0) {
